@@ -176,7 +176,7 @@ int main()
     player_hp += fruits[random_fruit].df_hp;
     player_hp = max_hp;
 
-    player_atk += 1000; //testing
+    player_atk += 1000; // testing
 
     // ELITE BOSSES
 
@@ -533,7 +533,6 @@ int main()
             }
         }
 
-
         // BATTLE LOOP
         while (player_hp > 0 && enemy_hp > 0)
         {
@@ -602,7 +601,7 @@ int main()
                     printf("     ELITE BOSS DEFEATED!\n");
                     printf("=================================\n");
 
-                    xp+=500;
+                    xp += 500;
                     printf("\nYou gained 500 XP!\n");
                     printf("Current XP: %d\n", xp);
                 }
@@ -610,11 +609,10 @@ int main()
                 {
                     printf("\nYOU DEFEATED THE ENEMY!!\n");
                     xp += 50;
-    
+
                     printf("You gained 50 XP!\n");
                     printf("Current XP: %d\n", xp);
                 }
-
 
                 // Level up
 
