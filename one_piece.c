@@ -608,7 +608,7 @@ int main()
                 }
                 else
                 {
-                    printf("\nYOU DEFEATED THE ENEMY!\n");
+                    printf("\nYOU DEFEATED THE ENEMY!!\n");
                     xp += 50;
     
                     printf("You gained 50 XP!\n");
