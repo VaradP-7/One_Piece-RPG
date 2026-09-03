@@ -81,7 +81,7 @@ int main()
 
     // DEVIL FRUIT
 
-    int random_fruit = rand() % 10;
+    int random_fruit = rand() % df_count;
 
     printf("\n=================================\n");
     printf("YOU GOT A DEVIL FRUIT!\n");
@@ -96,7 +96,7 @@ int main()
     fruits[random_fruit].df_hp += (player_level * 5);
 
     player_atk += fruits[random_fruit].df_atk;
-    player_hp += fruits[random_fruit].df_hp;
+    max_hp += fruits[random_fruit].df_hp;
     player_hp = max_hp;
 
     player_atk += 1000; // testing
@@ -202,14 +202,8 @@ int main()
             }
 
             // DODGE
-            if (choice == 2)
-            {
-            }
 
             // PARRY
-            if (choice == 3)
-            {
-            }
 
             // RUN
             else if (choice == 4)
@@ -238,7 +232,7 @@ int main()
                     printf("=================================\n");
 
                     xp += 100;
-                    printf("\nYou gained 500 XP!\n");
+                    printf("\nYou gained 100 XP!\n");
                     printf("Current XP: %d\n", xp);
                 }
                 else
@@ -250,7 +244,7 @@ int main()
                     printf("Current XP: %d\n", xp);
                 }
 
-                // player_level up
+                // LEVELING
 
                 if (xp >= player_level * 100)
                 {
@@ -261,8 +255,8 @@ int main()
 
                     player_hp = max_hp;
 
-                    printf("\n*** player_level UP! ***\n");
-                    printf("You are now player_level %d!\n", player_level);
+                    printf("\n*** LEVEL UP! ***\n");
+                    printf("You are now level %d!\n", player_level);
                     printf("Max HP increased!\n");
                     printf("Attack increased!\n");
                 }
