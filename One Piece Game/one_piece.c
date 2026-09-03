@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "elite_bosses.h"
 
-void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *level)
+void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *player_level)
 {
-    *enemy_max_hp = 150 + rand() % 51 + (*level * 50); // 150 - 200
+    *enemy_max_hp = 150 + rand() % 51 + (*player_level * 50); // 150 - 200
     *enemy_hp = *enemy_max_hp;
-    *enemy_atk = 20 + rand() % 11 + (*level * 10); // 20 - 30
+    *enemy_atk = 20 + rand() % 11 + (*player_level * 10); // 20 - 30
 }
 
 // DF FUNCTIONS
@@ -25,25 +26,6 @@ struct Player_Moveset
     char move_atk;
 };
 
-struct Boss_Moveset
-{
-    char *move_name;
-    int move_atk;
-};
-
-struct Elite_Bosses
-{
-    char *elite_boss_name;
-
-    int spawn_level;
-    int elite_boss_atk;
-    int elite_boss_hp;
-
-    int defeated;
-
-    struct Boss_Moveset moves[3];
-};
-
 // MAIN FUNCTION
 int main()
 {
@@ -60,7 +42,7 @@ int main()
     int df_hp;
 
     // PROGRESSION
-    int level = 1;
+    int player_level = 1;
     int xp = 0;
 
     // ENEMY
@@ -68,6 +50,7 @@ int main()
     int enemy_atk;
     int enemy_max_hp;
     int enemy_damage;
+    int enemy_level;
 
     // ELITE BOSS
 
@@ -172,303 +155,14 @@ int main()
     printf("Attack: %d\n", fruits[random_fruit].df_atk);
     printf("HP: %d\n", fruits[random_fruit].df_hp);
 
+    fruits[random_fruit].df_atk += (player_level * 2);
+    fruits[random_fruit].df_hp += (player_level * 5);
+
     player_atk += fruits[random_fruit].df_atk;
     player_hp += fruits[random_fruit].df_hp;
     player_hp = max_hp;
 
     player_atk += 1000; // testing
-
-    // ELITE BOSSES
-
-    struct Elite_Bosses bosses[30] =
-        {
-            {"Crocodile",
-             10,
-             200,
-             1000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Enel",
-             20,
-             500,
-             2000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Rob Lucci",
-             30,
-             1000,
-             3000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Gecko Moria",
-             35,
-             1500,
-             4000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kizaru: Sabaody",
-             40,
-             1500,
-             4500,
-             0,
-
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Megellan",
-             45,
-             1600,
-             5000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kizaru: MarineFord",
-             50,
-             1800,
-             5500,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kuzan",
-             55,
-             2000,
-             6000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Akainu",
-             60,
-             3000,
-             4000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Donquixote Doflamingo",
-             65,
-             2200,
-             7000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Big Mom: Whole Cake Island",
-             70,
-             2400,
-             7500,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kaido",
-             80,
-             2500,
-             8000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Big Mom: Wano",
-             85,
-             2600,
-             12000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-            {"Kaido: Hybrid",
-             88,
-             2700,
-             10000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kaido: Dragon",
-             90,
-             3200,
-             7000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Kizaru: Egghead",
-             95,
-             2800,
-             7500,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Jaygarcia Saturn",
-             100,
-             3000,
-             16000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Marcus Mars",
-             105,
-             3100,
-             12000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Topman Warcury",
-             110,
-             3100,
-             14000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Ethanbaron V. Nusjuro",
-             115,
-             3600,
-             11000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Shepherd Ju Peter",
-             120,
-             3000,
-             13000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Gunko",
-             125,
-             2800,
-             9500,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Gunko: Imu",
-             130,
-             4200,
-             16000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Shepherd Sommers",
-             135,
-             3400,
-             13500,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Saint Rimoshifu Killingham",
-             138,
-             3300,
-             13000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-            {"Imu: King of the World",
-             150,
-             50000,
-             1000000,
-             0,
-             {
-                 {},
-                 {},
-                 {},
-             }},
-
-        };
 
     // GAMEPLAY LOOP
 
@@ -479,11 +173,10 @@ int main()
         // BOSS FIGHT
         int boss_fight = 0;
         int boss_index = -1;
-        int n = 26; // n = Number of Bosses
 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < boss_count; i++)
         {
-            if (level == bosses[i].spawn_level && bosses[i].defeated == 0)
+            if (player_level == bosses[i].spawn_player_level && bosses[i].defeated == 0)
             {
                 boss_fight = 1; // '1' means boss fight initiated
                 boss_index = i;
@@ -503,7 +196,7 @@ int main()
         }
         else
         { // Generate normal enemies
-            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &level);
+            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &player_level);
 
             if (player_faction == 1)
             {
@@ -537,7 +230,7 @@ int main()
         while (player_hp > 0 && enemy_hp > 0)
         {
             printf("\n---------------------------------\n");
-            printf("Level: %d\n", level);
+            printf("player_level: %d\n", player_level);
             printf("Your HP: %d/%d Your ATK: %d\n", player_hp, max_hp, player_atk);
             printf("Enemy HP: %d/%d Enemy ATK: %d\n", enemy_hp, enemy_max_hp, enemy_atk);
             printf("---------------------------------\n");
@@ -572,8 +265,14 @@ int main()
             }
 
             // DODGE
+            if (choice == 2)
+            {
+            }
 
             // PARRY
+            if (choice == 3)
+            {
+            }
 
             // RUN
             else if (choice == 4)
@@ -601,7 +300,7 @@ int main()
                     printf("     ELITE BOSS DEFEATED!\n");
                     printf("=================================\n");
 
-                    xp += 500;
+                    xp += 100;
                     printf("\nYou gained 500 XP!\n");
                     printf("Current XP: %d\n", xp);
                 }
@@ -614,19 +313,19 @@ int main()
                     printf("Current XP: %d\n", xp);
                 }
 
-                // Level up
+                // player_level up
 
-                if (xp >= level * 100)
+                if (xp >= player_level * 100)
                 {
-                    level++;
+                    player_level++;
 
                     max_hp += 50;
                     player_atk += 20;
 
                     player_hp = max_hp;
 
-                    printf("\n*** LEVEL UP! ***\n");
-                    printf("You are now Level %d!\n", level);
+                    printf("\n*** player_level UP! ***\n");
+                    printf("You are now player_level %d!\n", player_level);
                     printf("Max HP increased!\n");
                     printf("Attack increased!\n");
                 }
@@ -666,7 +365,7 @@ int main()
     printf("             GAME OVER\n");
     printf("=================================\n");
 
-    printf("Final Level: %d\n", level);
+    printf("Final player_level: %d\n", player_level);
     printf("Final XP: %d\n", xp);
 
     return 0;
