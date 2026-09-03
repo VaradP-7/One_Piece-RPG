@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "elite_bosses.h"
+#include "devil_fruits.h"
 
 void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *player_level)
 {
@@ -9,16 +10,6 @@ void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *pla
     *enemy_hp = *enemy_max_hp;
     *enemy_atk = 20 + rand() % 11 + (*player_level * 10); // 20 - 30
 }
-
-// DF FUNCTIONS
-
-struct Devil_Fruit
-{
-    char *df_name;
-    char *df_type;
-    int df_atk;
-    int df_hp;
-};
 
 struct Player_Moveset
 {
@@ -89,60 +80,6 @@ int main()
     player_hp = max_hp;
 
     // DEVIL FRUIT
-
-    struct Devil_Fruit fruits[10] =
-        {
-            {"Magma-Magma",
-             "Highly Offensive",
-             100,
-             20},
-
-            {"Flame-Flame",
-             "Offensive",
-             80,
-             30},
-
-            {"Ice-Ice",
-             "Balanced",
-             60,
-             60},
-
-            {"Gum-Gum",
-             "Extremely Balanced",
-             100,
-             100},
-
-            {"Dark-Dark",
-             "Highly Offensive",
-             100,
-             100},
-
-            {"Glint-Glint",
-             "Highly Offensive",
-             100,
-             100},
-
-            {"Rumble-Rumble",
-             "Highly Offensive",
-             100,
-             100},
-
-            {"Sand-Sand",
-             "Offensive",
-             100,
-             100},
-
-            {"Bird-Bird Fruit, Model: Phoenix",
-             "Extremely Defensive",
-             100,
-             100},
-
-            {"Fish-Fish Fruit, Model: Azure Dragon",
-             "Balanced",
-             100,
-             100}
-
-        };
 
     int random_fruit = rand() % 10;
 
@@ -230,7 +167,7 @@ int main()
         while (player_hp > 0 && enemy_hp > 0)
         {
             printf("\n---------------------------------\n");
-            printf("player_level: %d\n", player_level);
+            printf("Level: %d\n", player_level);
             printf("Your HP: %d/%d Your ATK: %d\n", player_hp, max_hp, player_atk);
             printf("Enemy HP: %d/%d Enemy ATK: %d\n", enemy_hp, enemy_max_hp, enemy_atk);
             printf("---------------------------------\n");
