@@ -4,7 +4,7 @@
 struct Boss_Moveset
 {
     char *move_name;
-    int move_atk;
+    float move_multiplier;
 };
 
 struct Elite_Bosses

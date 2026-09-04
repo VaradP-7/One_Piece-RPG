@@ -99,7 +99,7 @@ int main()
     max_hp += fruits[random_fruit].df_hp;
     player_hp = max_hp;
 
-    player_atk += 1000; // testing
+    // player_atk += 2000; // testing
 
     // GAMEPLAY LOOP
 
@@ -266,16 +266,44 @@ int main()
 
             // ---------------- ENEMY ATTACK ----------------
 
-            enemy_damage = enemy_atk + rand() % 6;
-
-            player_hp -= enemy_damage;
-
-            if (player_hp < 0)
+            if (boss_fight == 1)
             {
-                player_hp = 0;
-            }
+                int special_chance = rand() % 100;
 
-            printf("Enemy attacked you for %d damage!\n", enemy_damage);
+                // 70% normal attack
+                if (special_chance < 75)
+                {
+                    enemy_damage = bosses[boss_index].elite_boss_atk + rand() % 30;
+
+                    printf("Boss dealt %d damage!\n", enemy_damage);
+                }
+
+                // 25% chance of special attack
+                else
+                {
+                    int random_move = rand() % 3;
+
+                    enemy_damage =  (bosses[boss_index].elite_boss_atk)*(bosses[boss_index].moves[random_move].move_multiplier);
+
+                    printf("\n%s USED %s!\n",
+                           bosses[boss_index].elite_boss_name,
+                           bosses[boss_index].moves[random_move].move_name);
+
+                    printf("Boss dealt %d enemy_damage!\n", enemy_damage);
+                }
+
+                player_hp -= enemy_damage;
+            }
+            else
+            {
+                // Normal enemy attack
+
+                enemy_damage = enemy_atk + rand() % 6;
+
+                printf("Enemy attacked you for %d enemy_damage!\n", enemy_damage);
+
+                player_hp -= enemy_damage;
+            }
 
             // Player is dead
 
@@ -296,7 +324,7 @@ int main()
     printf("             GAME OVER\n");
     printf("=================================\n");
 
-    printf("Final player_level: %d\n", player_level);
+    printf("Final Level: %d\n", player_level);
     printf("Final XP: %d\n", xp);
 
     return 0;
