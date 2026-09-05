@@ -283,7 +283,7 @@ int main()
                 {
                     int random_move = rand() % 3;
 
-                    enemy_damage =  (bosses[boss_index].elite_boss_atk)*(bosses[boss_index].moves[random_move].move_multiplier);
+                    enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].moves[random_move].move_multiplier);
 
                     printf("\n%s USED %s!\n",
                            bosses[boss_index].elite_boss_name,
