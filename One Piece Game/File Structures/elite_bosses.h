@@ -17,7 +17,7 @@ struct Elite_Bosses
 
     int defeated;
 
-    struct Boss_Moveset moves[3];
+    struct Boss_Moveset boss_moves[3];
 };
 
 extern struct Elite_Bosses bosses[];

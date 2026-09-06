@@ -182,7 +182,7 @@ int main()
             // ATTACK
             if (choice == 1)
             {
-                player_damage = player_atk + rand() % 11;
+                player_damage = player_atk + rand() % 30;
 
                 // Critical hit
                 if (rand() % 5 == 0)
@@ -283,11 +283,11 @@ int main()
                 {
                     int random_move = rand() % 3;
 
-                    enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].moves[random_move].move_multiplier);
+                    enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].boss_moves[random_move].move_multiplier);
 
                     printf("\n%s USED %s!\n",
                            bosses[boss_index].elite_boss_name,
-                           bosses[boss_index].moves[random_move].move_name);
+                           bosses[boss_index].boss_moves[random_move].move_name);
 
                     printf("Boss dealt %d enemy_damage!\n", enemy_damage);
                 }
@@ -298,7 +298,7 @@ int main()
             {
                 // Normal enemy attack
 
-                enemy_damage = enemy_atk + rand() % 6;
+                enemy_damage = enemy_atk + rand() % 30;
 
                 printf("Enemy attacked you for %d enemy_damage!\n", enemy_damage);
 
