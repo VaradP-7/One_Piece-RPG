@@ -1,11 +1,5 @@
-#ifndef PLAYER
-#define PLAYER
-
-struct Player_Moveset
-{
-    char *move_name;
-    float move_atk_multiplier;
-};
+#ifndef PLAYER_H
+#define PLAYER_H
 
 struct Player
 {
@@ -18,11 +12,8 @@ struct Player
     int player_defense;
     int player_speed;
 
-    // Moveset
-    struct Player_Moveset player_moves[4];
 };
 
 extern struct Player faction[];
-extern moveset_count;
 
 #endif
