@@ -160,6 +160,7 @@ int main()
         // BATTLE LOOP
         while (player_hp > 0 && enemy_hp > 0)
         {
+
             printf("\n---------------------------------\n");
             printf("Level: %d\n", player_level);
             printf("Your HP: %d/%d Your ATK: %d\n", player_hp, max_hp, player_atk);
@@ -169,12 +170,14 @@ int main()
             printf("1. Attack\n");
             printf("2. Dodge\n");
             printf("3. Parry\n");
-            printf("4. Run\n");
+            printf("4. Clear Screen\n");
+            printf("5. Run\n");
             printf("Choose: ");
             scanf("%d", &choice);
 
             switch (choice)
             {
+
             case 1:
                 // ATTACK
                 printf("\n");
@@ -206,11 +209,27 @@ int main()
 
             case 2:
                 // DODGE
+                if (rand() % 2)
+                {
+                    printf("\nYou dodged enemy's attack successfully.\n");
+                    continue;
+                }
+                else
+                {
+                    printf("\nDodge failed.\n");
+                }
                 break;
+
             case 3:
                 // PARRY
                 break;
+
             case 4:
+                // CLEAR SCREEN
+                system("cls");
+                break;
+
+            case 5:
                 // RUN
                 printf("\nYou ran away!\n");
                 game_over = 1;
