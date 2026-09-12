@@ -14,6 +14,8 @@ struct Devil_Fruit
     char *df_type;
     int df_atk;
     int df_hp;
+    int df_def;
+    int df_speed;
 
     struct Player_Moveset player_moves [4];
 

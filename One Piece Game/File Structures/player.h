@@ -7,9 +7,8 @@ struct Player
 
     // Stats
     int player_atk;
-    int player_hp;
     int player_max_hp;
-    int player_defense;
+    int player_def;
     int player_speed;
 
 };

@@ -3,12 +3,15 @@
 #include <time.h>
 #include "File Structures/elite_bosses.h"
 #include "File Structures/devil_fruits.h"
+#include "File Structures/player.h"
 
-void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *player_level)
+void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *enemy_def, int *enemy_speed, int *player_level)
 {
     *enemy_max_hp = 150 + rand() % 51 + (*player_level * 100);
     *enemy_hp = *enemy_max_hp;
     *enemy_atk = 20 + rand() % 11 + (*player_level * 10);
+    *enemy_def = 100 + rand() % 21 + (*player_level * 30);
+    *enemy_speed = 10 + rand() % 6 + (*player_level * 5);
 }
 
 // MAIN FUNCTION
@@ -21,12 +24,16 @@ int main()
     int player_hp;
     int max_hp;
     int player_atk;
+    int player_def;
+    int player_speed;
 
     int parry_turns;
 
     // DEVIL FRUIT
     int df_atk;
     int df_hp;
+    int df_def;
+    int df_speed;
 
     // PROGRESSION
     int player_level = 1;
@@ -36,6 +43,8 @@ int main()
     int enemy_hp;
     int enemy_atk;
     int enemy_max_hp;
+    int enemy_def;
+    int enemy_speed;
     int enemy_damage;
     int enemy_level;
 
@@ -46,7 +55,7 @@ int main()
     int move_choice;
     int player_damage;
 
-    int bounty;
+    int bounty = 0;
 
     printf("Choose your faction: \n");
     printf("1. Pirate \n");
@@ -56,22 +65,28 @@ int main()
 
     if (player_faction == 1)
     {
-        player_atk = 50;
-        max_hp = 200;
+        player_atk = faction[0].player_atk;
+        max_hp = faction[0].player_max_hp;
+        player_def = faction[0].player_def;
+        player_speed = faction[0].player_speed;
         printf("You chose to become a Pirate! \n");
     }
     else if (player_faction == 2)
     {
-        player_atk = 30;
-        max_hp = 250;
+        player_atk = faction[1].player_atk;
+        max_hp = faction[1].player_max_hp;
+        player_def = faction[1].player_def;
+        player_speed = faction[1].player_speed;
         printf("You chose to become a Marine! \n");
     }
     else
     {
         printf("Invalid choice. You are a Pirate.\n");
-        max_hp = 100;
-        player_atk = 100;
-        player_faction = 1;
+        player_atk = faction[0].player_atk;
+        max_hp = faction[0].player_max_hp;
+        player_def = faction[0].player_def;
+        player_speed = faction[0].player_speed;
+        player_faction = faction[0].player_faction;
     }
     player_hp = max_hp;
 
@@ -87,13 +102,19 @@ int main()
     printf("Type: %s\n", fruits[random_fruit].df_type);
     printf("Attack: %d\n", fruits[random_fruit].df_atk);
     printf("HP: %d\n", fruits[random_fruit].df_hp);
+    printf("Defense: %d\n", fruits[random_fruit].df_def);
+    printf("Speed: %d\n", fruits[random_fruit].df_speed);
 
-    df_atk = fruits[random_fruit].df_atk + (player_level * 2);
+    df_atk = fruits[random_fruit].df_atk + (player_level * 3);
     df_hp = fruits[random_fruit].df_hp + (player_level * 5);
+    df_def = fruits[random_fruit].df_def + (player_level * 5);
+    df_speed = fruits[random_fruit].df_speed + (player_level * 2);
 
     player_atk += df_atk;
     max_hp += df_hp;
     player_hp = max_hp;
+    player_def = df_def;
+    player_speed = df_speed;
 
     int remaining_moves[4];
 
@@ -136,7 +157,7 @@ int main()
         }
         else
         { // Generate normal enemies
-            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &player_level);
+            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &enemy_def, &enemy_speed, &player_level);
 
             if (player_faction == 1)
             {
@@ -146,14 +167,14 @@ int main()
                 {
                     printf("\n=================================\n");
                     printf("A NEW PIRATE HAS APPEARED!\n");
-                    printf("Enemy HP: %d Enemy ATK: %d\n", enemy_hp, enemy_atk);
+                    printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
                     printf("=================================\n");
                 }
                 else if (decision == 2)
                 {
                     printf("\n=================================\n");
                     printf("A NEW MARINE HAS APPEARED!\n");
-                    printf("Enemy HP: %d Enemy ATK: %d\n", enemy_hp, enemy_atk);
+                    printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
                     printf("=================================\n");
                 }
             }
@@ -161,7 +182,7 @@ int main()
             {
                 printf("=================================\n");
                 printf("A NEW PIRATE HAS APPEARED!\n");
-                printf("Enemy HP: %d Enemy ATK: %d\n", enemy_hp, enemy_atk);
+                printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
                 printf("=================================\n");
             }
         }
@@ -172,7 +193,7 @@ int main()
 
             printf("\n---------------------------------\n");
             printf("Level: %d\n", player_level);
-            printf("Your HP: %d/%d Your ATK: %d\n", player_hp, max_hp, player_atk);
+            printf("Your HP: %d/%d Your ATK: %d Your Def: %d Your Speed %d\n", player_hp, max_hp, player_atk, player_def, player_speed);
             printf("Enemy HP: %d/%d Enemy ATK: %d\n", enemy_hp, enemy_max_hp, enemy_atk);
             printf("---------------------------------\n");
 
@@ -280,15 +301,14 @@ int main()
                     printf("     ELITE BOSS DEFEATED!\n");
                     printf("=================================\n");
 
-
-                    xp+=100;
+                    xp += 100;
 
                     // Moves restored
                     for (int i = 0; i < 4; i++)
                     {
                         remaining_moves[i] = fruits[random_fruit].player_moves[i].no_of_moves;
                     }
-                    
+
                     printf("\nYou gained 100 XP!\n");
                     printf("Current XP: %d\n", xp);
                 }
@@ -307,15 +327,20 @@ int main()
                 {
                     player_level++;
 
-                    max_hp += 50;
                     player_atk += 20;
+                    max_hp += 50;
+                    player_def += 50;
+                    player_speed += 10;
 
-                    player_hp = max_hp;
+                    player_hp = max_hp; // Most probably this will be removed
 
                     printf("\n*** LEVEL UP! ***\n");
                     printf("You are now level %d!\n", player_level);
-                    printf("Max HP increased!\n");
-                    printf("Attack increased!\n");
+
+                    printf("Attack increased by %d!\n", 20);
+                    printf("Max HP increased by %d!\n", 50);
+                    printf("Defense increased by %d!\n", 50);
+                    printf("Speed increased by %d!\n", 10);
                 }
 
                 continue;

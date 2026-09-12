@@ -14,6 +14,8 @@ struct Elite_Bosses
     int spawn_player_level;
     int elite_boss_atk;
     int elite_boss_hp;
+    int elite_boss_def;
+    int elite_boss_speed;
 
     int defeated;
 

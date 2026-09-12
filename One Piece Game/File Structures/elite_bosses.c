@@ -6,6 +6,8 @@ struct Elite_Bosses bosses[] =
          10,
          200,
          1000,
+         500,
+         200,
          0,
          {
              {"Desert Spada", 1.5},
@@ -17,6 +19,8 @@ struct Elite_Bosses bosses[] =
          20,
          500,
          2000,
+         500,
+         200,
          0,
          {
              {"El Thor", 2.0},
@@ -28,6 +32,8 @@ struct Elite_Bosses bosses[] =
          30,
          1000,
          3000,
+         500,
+         200,
          0,
          {
              {"Shigan Madara", 2.0},
@@ -39,6 +45,8 @@ struct Elite_Bosses bosses[] =
          35,
          1500,
          4000,
+         500,
+         200,
          0,
          {
              {"Brick Bat", 2.0},
@@ -50,6 +58,8 @@ struct Elite_Bosses bosses[] =
          40,
          1500,
          4500,
+         500,
+         200,
          0,
 
          {
@@ -62,6 +72,8 @@ struct Elite_Bosses bosses[] =
          45,
          1600,
          5000,
+         500,
+         200,
          0,
          {
              {"Hydra", 2.0},
@@ -73,6 +85,8 @@ struct Elite_Bosses bosses[] =
          50,
          1800,
          5500,
+         500,
+         200,
          0,
          {
              {"Yasakani no Magatama", 2.0},
@@ -84,6 +98,8 @@ struct Elite_Bosses bosses[] =
          55,
          2000,
          6000,
+         500,
+         200,
          0,
          {
              {"Ice Age", 2.0},
@@ -95,6 +111,8 @@ struct Elite_Bosses bosses[] =
          60,
          2500,
          4000,
+         500,
+         200,
          0,
          {
              {"Dai Funka", 2.0},
@@ -106,6 +124,8 @@ struct Elite_Bosses bosses[] =
          65,
          2200,
          7000,
+         500,
+         200,
          0,
          {
              {"Parasite", 1.5},
@@ -117,6 +137,8 @@ struct Elite_Bosses bosses[] =
          70,
          2400,
          7500,
+         500,
+         200,
          0,
          {
              {"Ikoku", 2.5},
@@ -128,6 +150,8 @@ struct Elite_Bosses bosses[] =
          80,
          2500,
          8000,
+         500,
+         200,
          0,
          {
              {"Thunder Bagua", 2.0},
@@ -139,6 +163,8 @@ struct Elite_Bosses bosses[] =
          85,
          2600,
          12000,
+         500,
+         200,
          0,
          {
              {"Indra", 2.0},
@@ -150,6 +176,8 @@ struct Elite_Bosses bosses[] =
          88,
          2700,
          10000,
+         500,
+         200,
          0,
          {
              {"Thunder Bagua", 2.2},
@@ -161,6 +189,8 @@ struct Elite_Bosses bosses[] =
          90,
          3200,
          7000,
+         500,
+         200,
          0,
          {
              {"Bolo Breath", 2.0},
@@ -172,6 +202,8 @@ struct Elite_Bosses bosses[] =
          95,
          2800,
          7500,
+         500,
+         200,
          0,
          {
              {"Yasakani no Magatama", 1.8},
@@ -183,6 +215,8 @@ struct Elite_Bosses bosses[] =
          100,
          3000,
          16000,
+         500,
+         200,
          0,
          {
              {"Venomous Legs", 3.0},
@@ -194,6 +228,8 @@ struct Elite_Bosses bosses[] =
          105,
          3100,
          12000,
+         500,
+         200,
          0,
          {
              {"Itsumade Charge", 3.0},
@@ -205,6 +241,8 @@ struct Elite_Bosses bosses[] =
          110,
          3100,
          14000,
+         500,
+         200,
          0,
          {
              {"Fengxi Charge", 2.2},
@@ -216,6 +254,8 @@ struct Elite_Bosses bosses[] =
          115,
          3600,
          11000,
+         500,
+         200,
          0,
          {
              {"Ice Blade Slash", 3.0},
@@ -227,6 +267,8 @@ struct Elite_Bosses bosses[] =
          120,
          3000,
          13000,
+         500,
+         200,
          0,
          {
              {"Sandworm Devour", 2.2},
@@ -238,6 +280,8 @@ struct Elite_Bosses bosses[] =
          125,
          2800,
          9500,
+         500,
+         200,
          0,
          {
              {"Arrows", 1.5},
@@ -249,6 +293,8 @@ struct Elite_Bosses bosses[] =
          130,
          4200,
          16000,
+         500,
+         200,
          0,
          {
              {"Supreme King Haki Burst", 3.0},
@@ -260,6 +306,8 @@ struct Elite_Bosses bosses[] =
          135,
          3400,
          13500,
+         500,
+         200,
          0,
          {
              {"Thorn Manipulation", 1.8},
@@ -271,6 +319,8 @@ struct Elite_Bosses bosses[] =
          138,
          3300,
          13000,
+         500,
+         200,
          0,
          {
              {"Sleep Inducement", 1.0},
@@ -282,6 +332,8 @@ struct Elite_Bosses bosses[] =
          150,
          50000,
          1000000,
+         500000,
+         20000,
          0,
          {
              {"Supreme King Haki", 20.0},

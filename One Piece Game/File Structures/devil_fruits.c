@@ -6,6 +6,9 @@ struct Devil_Fruit fruits[] =
          "Highly Offensive",
          100,
          20,
+         100,
+         100,
+
          {{"Dai Funka", 2.0, 10},
           {"Inumaki Guren", 2.5, 5},
           {"Meigō", 2.7, 5},
@@ -15,6 +18,8 @@ struct Devil_Fruit fruits[] =
          "Offensive",
          80,
          30,
+         100,
+         100,
          {{"Higan", 1.5, 15},
           {"Hiken", 2.0, 10},
           {"Enkai: Hibashira", 2.2, 5},
@@ -24,6 +29,8 @@ struct Devil_Fruit fruits[] =
          "Balanced",
          60,
          60,
+         100,
+         100,
          {{"Ice Saber", 2.0, 10},
           {"Ice Ball", 2.0, 10},
           {"Ice Time", 2.0, 10},
@@ -31,6 +38,8 @@ struct Devil_Fruit fruits[] =
 
         {"Gum-Gum",
          "Extremely Balanced",
+         100,
+         100,
          100,
          100,
          {
@@ -44,6 +53,8 @@ struct Devil_Fruit fruits[] =
          "Highly Offensive",
          100,
          100,
+         100,
+         100,
          {
              {"Kurouzu", 2.0, 10},
              {"Liberation", 2.0, 10},
@@ -53,6 +64,8 @@ struct Devil_Fruit fruits[] =
 
         {"Glint-Glint",
          "Highly Offensive",
+         100,
+         100,
          100,
          100,
          {
@@ -66,6 +79,8 @@ struct Devil_Fruit fruits[] =
          "Highly Offensive",
          100,
          100,
+         100,
+         100,
          {
              {"El Thor", 2.0, 10},
              {"Sango", 2.0, 10},
@@ -75,6 +90,8 @@ struct Devil_Fruit fruits[] =
 
         {"Sand-Sand",
          "Offensive",
+         100,
+         100,
          100,
          100,
          {
@@ -88,6 +105,8 @@ struct Devil_Fruit fruits[] =
          "Extremely Defensive",
          100,
          100,
+         100,
+         100,
          {
              {"Phoenix Brand", 2.0, 10},
              {"Bluebird", 2.0, 10},
@@ -97,6 +116,8 @@ struct Devil_Fruit fruits[] =
 
         {"Fish-Fish Fruit, Model: Azure Dragon",
          "Balanced",
+         100,
+         100,
          100,
          100,
          {
