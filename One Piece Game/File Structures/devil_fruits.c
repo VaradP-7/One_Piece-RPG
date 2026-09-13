@@ -11,8 +11,8 @@ struct Devil_Fruit fruits[] =
 
          {{"Dai Funka", 2.0, 10},
           {"Inumaki Guren", 2.5, 5},
-          {"Meigō", 2.7, 5},
-          {"Ryūsei Kazan", 3.0, 0}}},
+          {"Meigo", 2.7, 5},
+          {"Ryusei Kazan", 3.0, 0}}},
 
         {"Flame-Flame",
          "Offensive",

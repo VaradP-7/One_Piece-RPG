@@ -5,13 +5,80 @@
 #include "File Structures/devil_fruits.h"
 #include "File Structures/player.h"
 
-void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *enemy_def, int *enemy_speed, int *player_level)
+void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *enemy_def, int *enemy_speed, int player_level)
 {
-    *enemy_max_hp = 150 + rand() % 51 + (*player_level * 100);
+    *enemy_max_hp = 150 + rand() % 51 + (player_level * 100);
     *enemy_hp = *enemy_max_hp;
-    *enemy_atk = 20 + rand() % 11 + (*player_level * 10);
-    *enemy_def = 100 + rand() % 21 + (*player_level * 30);
-    *enemy_speed = 10 + rand() % 6 + (*player_level * 5);
+    *enemy_atk = 20 + rand() % 11 + (player_level * 10);
+    *enemy_def = 50 + rand() % 21 + (player_level * 5);
+    *enemy_speed = 10 + rand() % 6 + (player_level * 5);
+}
+
+void player_attack(int *player_damage, int player_atk, int enemy_def, int random_fruit, int move_choice, int *enemy_hp)
+{
+    // Player damage Formula
+    *player_damage = (player_atk * fruits[random_fruit].player_moves[move_choice - 1].move_atk_multiplier) + rand() % 31;
+    *player_damage = *player_damage * 100 / (100 + enemy_def);
+
+    // Critical hit
+    if (rand() % 10 == 0)
+    {
+        *player_damage *= 2;
+        printf("\nCRITICAL HIT!\n");
+    }
+
+    *enemy_hp -= *player_damage;
+
+    if (*enemy_hp < 0)
+    {
+        *enemy_hp = 0;
+    }
+
+    printf("You dealt %d damage!\n", *player_damage);
+}
+
+void enemy_attack(int boss_fight, int *enemy_damage, int enemy_atk, int boss_index, int player_def, int *player_hp)
+{
+    if (boss_fight == 1)
+    {
+        int special_chance = rand() % 100;
+
+        // 70% normal attack
+        if (special_chance < 75)
+        {
+            *enemy_damage = bosses[boss_index].elite_boss_atk + rand() % 30;
+            *enemy_damage = *enemy_damage * 100 / (100 + player_def);
+
+            printf("Boss dealt %d damage!\n", *enemy_damage);
+        }
+
+        // 25% chance of special attack
+        else
+        {
+            int random_move = rand() % 3;
+
+            *enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].boss_moves[random_move].move_multiplier);
+
+            printf("\n%s USED %s!\n", bosses[boss_index].elite_boss_name, bosses[boss_index].boss_moves[random_move].move_name);
+
+            *enemy_damage = *enemy_damage * 100 / (100 + player_def);
+
+            printf("Boss dealt %d damage!\n", *enemy_damage);
+        }
+
+        *player_hp -= *enemy_damage;
+    }
+    else
+    {
+        // Normal enemy attack
+
+        *enemy_damage = enemy_atk + rand() % 30;
+        *enemy_damage = *enemy_damage * 100 / (100 + player_def);
+
+        printf("Enemy dealt %d damage!\n", *enemy_damage);
+
+        *player_hp -= *enemy_damage;
+    }
 }
 
 // MAIN FUNCTION
@@ -27,7 +94,7 @@ int main()
     int player_def;
     int player_speed;
 
-    int parry_turns;
+    int parry_turns = 0;
 
     // DEVIL FRUIT
     int df_atk;
@@ -113,8 +180,8 @@ int main()
     player_atk += df_atk;
     max_hp += df_hp;
     player_hp = max_hp;
-    player_def = df_def;
-    player_speed = df_speed;
+    player_def += df_def;
+    player_speed += df_speed;
 
     int remaining_moves[4];
 
@@ -150,6 +217,8 @@ int main()
             enemy_hp = bosses[boss_index].elite_boss_hp;
             enemy_max_hp = enemy_hp;
             enemy_atk = bosses[boss_index].elite_boss_atk;
+            enemy_def = bosses[boss_index].elite_boss_def;
+            enemy_speed = bosses[boss_index].elite_boss_speed;
 
             printf("\nELITE BOSS APPEARED!\n");
             printf("Boss: %s\n",
@@ -157,7 +226,7 @@ int main()
         }
         else
         { // Generate normal enemies
-            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &enemy_def, &enemy_speed, &player_level);
+            enemy_generation(&enemy_hp, &enemy_max_hp, &enemy_atk, &enemy_def, &enemy_speed, player_level);
 
             if (player_faction == 1)
             {
@@ -165,25 +234,25 @@ int main()
                 decision = rand() % 2 + 1;
                 if (decision == 1)
                 {
-                    printf("\n=================================\n");
+                    printf("\n=============================================================\n");
                     printf("A NEW PIRATE HAS APPEARED!\n");
                     printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
-                    printf("=================================\n");
+                    printf("=============================================================\n");
                 }
                 else if (decision == 2)
                 {
-                    printf("\n=================================\n");
+                    printf("\n============================================================\n");
                     printf("A NEW MARINE HAS APPEARED!\n");
                     printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
-                    printf("=================================\n");
+                    printf("=============================================================\n");
                 }
             }
             else if (player_faction == 2)
             {
-                printf("=================================\n");
+                printf("\n=============================================================\n");
                 printf("A NEW PIRATE HAS APPEARED!\n");
                 printf("Enemy HP: %d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_atk, enemy_def, enemy_speed);
-                printf("=================================\n");
+                printf("=============================================================\n");
             }
         }
 
@@ -191,15 +260,17 @@ int main()
         while (player_hp > 0 && enemy_hp > 0)
         {
 
-            printf("\n---------------------------------\n");
+            printf("\n------------------------------------------------------------------\n");
             printf("Level: %d\n", player_level);
             printf("Your HP: %d/%d Your ATK: %d Your Def: %d Your Speed %d\n", player_hp, max_hp, player_atk, player_def, player_speed);
-            printf("Enemy HP: %d/%d Enemy ATK: %d\n", enemy_hp, enemy_max_hp, enemy_atk);
-            printf("---------------------------------\n");
+            printf("Enemy HP: %d/%d Enemy ATK: %d Enemy DEF: %d Enemy Speed: %d\n", enemy_hp, enemy_max_hp, enemy_atk);
+            printf("------------------------------------------------------------------\n");
 
+            printf("\nBattle options:\n");
             printf("1. Attack\n");
             printf("2. Dodge\n");
             printf("3. Parry\n");
+            printf("\nOther options:\n");
             printf("4. Clear Screen\n");
             printf("5. Run\n");
             printf("Choose: ");
@@ -218,26 +289,20 @@ int main()
                 printf("Choose: ");
                 scanf("%d", &move_choice);
 
+                if (move_choice < 1 || move_choice > 4)
+                {
+                    printf("Invalid move!\n");
+                    continue;
+                }
+
+                if (remaining_moves[move_choice - 1] <= 0)
+                {
+                    printf("You have no uses left for this move!\n");
+                    continue;
+                }
+
                 remaining_moves[move_choice - 1]--;
 
-                // Player damage Formula
-                player_damage = (player_atk * fruits[random_fruit].player_moves[move_choice - 1].move_atk_multiplier) + rand() % 31;
-
-                // Critical hit
-                if (rand() % 10 == 0)
-                {
-                    player_damage *= 2;
-                    printf("\nCRITICAL HIT!\n");
-                }
-
-                enemy_hp -= player_damage;
-
-                if (enemy_hp < 0)
-                {
-                    enemy_hp = 0;
-                }
-
-                printf("You dealt %d damage!\n", player_damage);
                 break;
 
             case 2:
@@ -271,7 +336,7 @@ int main()
             case 4:
                 // CLEAR SCREEN
                 system("cls");
-                break;
+                continue;
 
             case 5:
                 // RUN
@@ -289,128 +354,166 @@ int main()
                 break;
             }
 
-            // ---------------- ENEMY IS DEAD ----------------
-
-            if (enemy_hp <= 0)
+            // Player and Enemy Attacks
+            if (choice == 1)
             {
-                if (boss_fight == 1)
+                // Player attacks first
+                if (player_speed > enemy_speed)
                 {
-                    bosses[boss_index].defeated = 1;
+                    player_attack(&player_damage, player_atk, enemy_def, random_fruit, move_choice, &enemy_hp);
 
-                    printf("\n=================================\n");
-                    printf("     ELITE BOSS DEFEATED!\n");
-                    printf("=================================\n");
-
-                    xp += 100;
-
-                    // Moves restored
-                    for (int i = 0; i < 4; i++)
+                    if (enemy_hp <= 0)
                     {
-                        remaining_moves[i] = fruits[random_fruit].player_moves[i].no_of_moves;
+                        if (parry_turns > 0)
+                        {
+                            printf("\nEnemy is stunned and cannot attack!\n");
+
+                            parry_turns--;
+                        }
+                    }
+                    else
+                    {
+                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                    }
+                }
+
+                // Enemy attacks first
+                else if (player_speed < enemy_speed)
+                {
+                    if (parry_turns > 0)
+                    {
+                        printf("\nEnemy is stunned and cannot attack!\n");
+
+                        parry_turns--;
                     }
 
-                    printf("\nYou gained 100 XP!\n");
-                    printf("Current XP: %d\n", xp);
+                    else
+                    {
+                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                    }
+
+                    if (player_hp > 0)
+                    {
+                        player_attack(&player_damage, player_atk, enemy_def, random_fruit, move_choice, &enemy_hp);
+                    }
                 }
+
+                // Both have same speed
                 else
                 {
-                    printf("\nYOU DEFEATED THE ENEMY!!\n");
-                    xp += 50;
+                    // SAME SPEED
+                    if (rand() % 2 == 0)
+                    {
+                        // PLAYER GOES FIRST
 
-                    printf("You gained 50 XP!\n");
-                    printf("Current XP: %d\n", xp);
+                        player_attack(&player_damage, player_atk, enemy_def, random_fruit, move_choice, &enemy_hp);
+
+                        if (enemy_hp > 0)
+                        {
+                            if (parry_turns > 0)
+                            {
+                                printf("\nEnemy is stunned and cannot attack!\n");
+
+                                parry_turns--;
+                            }
+
+                            else
+                            {
+                                enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // ENEMY GOES FIRST
+                        if (parry_turns > 0)
+                        {
+                            printf("\nEnemy is stunned and cannot attack!\n");
+
+                            parry_turns--;
+                        }
+                        else
+                        {
+                            enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                        }
+
+                        if (player_hp > 0)
+                        {
+                            player_attack(&player_damage, player_atk, enemy_def, random_fruit, move_choice, &enemy_hp);
+                        }
+                    }
                 }
 
-                // LEVELING
+                // ---------------- ENEMY IS DEAD ----------------
 
-                if (xp >= player_level * 100)
+                if (enemy_hp <= 0)
                 {
-                    player_level++;
+                    if (boss_fight == 1)
+                    {
+                        bosses[boss_index].defeated = 1;
 
-                    player_atk += 20;
-                    max_hp += 50;
-                    player_def += 50;
-                    player_speed += 10;
+                        printf("\n=================================\n");
+                        printf("     ELITE BOSS DEFEATED!\n");
+                        printf("=================================\n");
 
-                    player_hp = max_hp; // Most probably this will be removed
+                        xp += 100;
 
-                    printf("\n*** LEVEL UP! ***\n");
-                    printf("You are now level %d!\n", player_level);
+                        // Moves restored
+                        for (int i = 0; i < 4; i++)
+                        {
+                            remaining_moves[i] = fruits[random_fruit].player_moves[i].no_of_moves;
+                        }
 
-                    printf("Attack increased by %d!\n", 20);
-                    printf("Max HP increased by %d!\n", 50);
-                    printf("Defense increased by %d!\n", 50);
-                    printf("Speed increased by %d!\n", 10);
+                        printf("\nYou gained 100 XP!\n");
+                        printf("Current XP: %d\n", xp);
+                    }
+                    else
+                    {
+                        printf("\nYOU DEFEATED THE ENEMY!!\n");
+                        xp += 50;
+
+                        printf("You gained 50 XP!\n");
+                        printf("Current XP: %d\n", xp);
+                    }
+
+                    // LEVELING
+
+                    while (xp >= player_level * 100)
+                    {
+                        player_level++;
+
+                        player_atk += 20;
+                        max_hp += 50;
+                        player_def += 20;
+                        player_speed += 10;
+
+                        player_hp = max_hp; // Most probably this will be removed
+
+                        printf("\n*** LEVEL UP! ***\n");
+                        printf("You are now level %d!\n", player_level);
+
+                        printf("Attack increased by %d!\n", 20);
+                        printf("Max HP increased by %d!\n", 50);
+                        printf("Defense increased by %d!\n", 20);
+                        printf("Speed increased by %d!\n", 10);
+                    }
+
+                    continue;
                 }
 
-                continue;
-            }
+                // Player is dead
 
-            // ---------------- PARRY ----------------
-
-            if (parry_turns > 0)
-            {
-                printf("\nEnemy is stunned and cannot attack!\n");
-
-                parry_turns--;
-
-                continue;
-            }
-
-            // ---------------- ENEMY ATTACK ----------------
-
-            if (boss_fight == 1)
-            {
-                int special_chance = rand() % 100;
-
-                // 70% normal attack
-                if (special_chance < 75)
+                if (player_hp <= 0)
                 {
-                    enemy_damage = bosses[boss_index].elite_boss_atk + rand() % 30;
+                    printf("\n=================================\n");
+                    printf("          YOU DIED!\n");
+                    printf("=================================\n");
 
-                    printf("Boss dealt %d damage!\n", enemy_damage);
+                    game_over = 1;
                 }
-
-                // 25% chance of special attack
-                else
-                {
-                    int random_move = rand() % 3;
-
-                    enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].boss_moves[random_move].move_multiplier);
-
-                    printf("\n%s USED %s!\n",
-                           bosses[boss_index].elite_boss_name,
-                           bosses[boss_index].boss_moves[random_move].move_name);
-
-                    printf("Boss dealt %d enemy_damage!\n", enemy_damage);
-                }
-
-                player_hp -= enemy_damage;
             }
-            else
-            {
-                // Normal enemy attack
-
-                enemy_damage = enemy_atk + rand() % 30;
-
-                printf("Enemy attacked you for %d enemy_damage!\n", enemy_damage);
-
-                player_hp -= enemy_damage;
-            }
-        }
-
-        // Player is dead
-
-        if (player_hp <= 0)
-        {
-            printf("\n=================================\n");
-            printf("          YOU DIED!\n");
-            printf("=================================\n");
-
-            game_over = 1;
         }
     }
-
     // ---------------- END ----------------
 
     printf("\n=================================\n");
