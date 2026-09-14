@@ -22,7 +22,10 @@ struct Elite_Bosses
     struct Boss_Moveset boss_moves[3];
 };
 
-extern struct Elite_Bosses bosses[];
-extern int boss_count;
+extern struct Elite_Boss pirate_bosses[];
+extern int pirate_boss_count;
+
+extern struct Elite_Boss marine_bosses[];
+extern int marine_boss_count;
 
 #endif

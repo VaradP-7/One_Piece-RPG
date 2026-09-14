@@ -5,82 +5,6 @@
 #include "File Structures/devil_fruits.h"
 #include "File Structures/player.h"
 
-void enemy_generation(int *enemy_hp, int *enemy_max_hp, int *enemy_atk, int *enemy_def, int *enemy_speed, int player_level)
-{
-    *enemy_max_hp = 150 + rand() % 51 + (player_level * 100);
-    *enemy_hp = *enemy_max_hp;
-    *enemy_atk = 20 + rand() % 11 + (player_level * 10);
-    *enemy_def = 50 + rand() % 21 + (player_level * 5);
-    *enemy_speed = 10 + rand() % 6 + (player_level * 5);
-}
-
-void player_attack(int *player_damage, int player_atk, int enemy_def, int random_fruit, int move_choice, int *enemy_hp)
-{
-    // Player damage Formula
-    *player_damage = (player_atk * fruits[random_fruit].player_moves[move_choice - 1].move_atk_multiplier) + rand() % 31;
-    *player_damage = *player_damage * 100 / (100 + enemy_def);
-
-    // Critical hit
-    if (rand() % 10 == 0)
-    {
-        *player_damage *= 2;
-        printf("\nCRITICAL HIT!\n");
-    }
-
-    *enemy_hp -= *player_damage;
-
-    if (*enemy_hp < 0)
-    {
-        *enemy_hp = 0;
-    }
-
-    printf("You dealt %d damage!\n", *player_damage);
-}
-
-void enemy_attack(int boss_fight, int *enemy_damage, int enemy_atk, int boss_index, int player_def, int *player_hp)
-{
-    if (boss_fight == 1)
-    {
-        int special_chance = rand() % 100;
-
-        // 70% normal attack
-        if (special_chance < 75)
-        {
-            *enemy_damage = bosses[boss_index].elite_boss_atk + rand() % 30;
-            *enemy_damage = *enemy_damage * 100 / (100 + player_def);
-
-            printf("Boss dealt %d damage!\n", *enemy_damage);
-        }
-
-        // 25% chance of special attack
-        else
-        {
-            int random_move = rand() % 3;
-
-            *enemy_damage = (bosses[boss_index].elite_boss_atk) * (bosses[boss_index].boss_moves[random_move].move_multiplier);
-
-            printf("\n%s USED %s!\n", bosses[boss_index].elite_boss_name, bosses[boss_index].boss_moves[random_move].move_name);
-
-            *enemy_damage = *enemy_damage * 100 / (100 + player_def);
-
-            printf("Boss dealt %d damage!\n", *enemy_damage);
-        }
-
-        *player_hp -= *enemy_damage;
-    }
-    else
-    {
-        // Normal enemy attack
-
-        *enemy_damage = enemy_atk + rand() % 30;
-        *enemy_damage = *enemy_damage * 100 / (100 + player_def);
-
-        printf("Enemy dealt %d damage!\n", *enemy_damage);
-
-        *player_hp -= *enemy_damage;
-    }
-}
-
 // MAIN FUNCTION
 int main()
 {
@@ -116,6 +40,8 @@ int main()
     int enemy_level;
 
     // ELITE BOSS
+    struct Elite_Bosses *bosses;
+    int boss_count;
 
     // ATTACK
     int choice;
@@ -156,6 +82,18 @@ int main()
         player_faction = faction[0].player_faction;
     }
     player_hp = max_hp;
+
+    // Assigning Elite bosses to choosen faction
+    if (player_faction == 1)
+    {
+        bosses = pirate_bosses;
+        boss_count = pirate_boss_count;
+    }
+    else if (player_faction == 2)
+    {
+        bosses = marine_bosses;
+        boss_count = marine_boss_count;
+    }
 
     // DEVIL FRUIT
 
@@ -373,7 +311,7 @@ int main()
                     }
                     else
                     {
-                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp, bosses);
                     }
                 }
 
@@ -389,7 +327,7 @@ int main()
 
                     else
                     {
-                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                        enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp, bosses);
                     }
 
                     if (player_hp > 0)
@@ -419,7 +357,7 @@ int main()
 
                             else
                             {
-                                enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                                enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp, bosses);
                             }
                         }
                     }
@@ -434,7 +372,7 @@ int main()
                         }
                         else
                         {
-                            enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp);
+                            enemy_attack(boss_fight, &enemy_damage, enemy_atk, boss_index, player_def, &player_hp, bosses);
                         }
 
                         if (player_hp > 0)

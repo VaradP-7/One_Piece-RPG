@@ -1,6 +1,6 @@
 #include "elite_bosses.h"
 
-struct Elite_Bosses bosses[] =
+struct Elite_Bosses pirate_bosses[] = // Bosses for Pirates
     {
         {"Crocodile",
          10,
@@ -28,7 +28,7 @@ struct Elite_Bosses bosses[] =
              {"Raigo", 3.0},
          }},
 
-        {"Rob Lucci: Ennies Lobby",
+        {"Rob Lucci: Enies Lobby",
          30,
          1000,
          3000,
@@ -324,8 +324,8 @@ struct Elite_Bosses bosses[] =
          0,
          {
              {"Sleep Inducement", 1.0},
-             {"Nightmare Manifestation",1.2},
-             {"MMA Summoning",1.4},
+             {"Nightmare Manifestation", 1.2},
+             {"MMA Summoning", 1.4},
          }},
 
         {"Imu: King of the World",
@@ -342,4 +342,13 @@ struct Elite_Bosses bosses[] =
          }},
 };
 
-int boss_count = 26;
+int pirate_boss_count = sizeof(pirate_bosses) / sizeof(pirate_bosses[0]);
+
+struct Elite_Bosses marine_bosses[] = // Bosses for Marines
+{
+{
+
+}  
+};
+
+int marine_boss_count = sizeof(marine_bosses) / sizeof(marine_bosses[0]);
