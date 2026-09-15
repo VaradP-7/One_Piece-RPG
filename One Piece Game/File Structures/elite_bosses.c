@@ -346,9 +346,17 @@ int pirate_boss_count = sizeof(pirate_bosses) / sizeof(pirate_bosses[0]);
 
 struct Elite_Bosses marine_bosses[] = // Bosses for Marines
 {
-{
-
-}  
+{"Buggy",
+    10,
+    200,
+    2000,
+    100,
+    200,
+    0,
+    {
+        {}
+    }
+},  
 };
 
 int marine_boss_count = sizeof(marine_bosses) / sizeof(marine_bosses[0]);
