@@ -354,7 +354,7 @@ struct Elite_Bosses marine_bosses[] = // Bosses for Marines
     200,
     0,
     {
-        {"CHOP CHOP MEOW MEOW ERROR",}
+        {"",}
     }
 },  
 };
